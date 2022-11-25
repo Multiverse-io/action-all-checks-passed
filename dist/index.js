@@ -4204,18 +4204,13 @@ function run() {
         const token = process.env.GITHUB_TOKEN;
         if (!token)
             throw ReferenceError('No Token found');
-        if (github_1.context.eventName === 'check_run') {
-            return yield all_status_passed_check_1.allStatusPassedCheck({
-                debug: core_1.debug,
-                setFailed: core_1.setFailed,
-                getInput: core_1.getInput,
-                octokit: new github_1.GitHub(token),
-                context: github_1.context
-            });
-        }
-        else {
-            return new Promise(() => { });
-        }
+        yield all_status_passed_check_1.allStatusPassedCheck({
+            debug: core_1.debug,
+            setFailed: core_1.setFailed,
+            getInput: core_1.getInput,
+            octokit: new github_1.GitHub(token),
+            context: github_1.context
+        });
     });
 }
 run();
