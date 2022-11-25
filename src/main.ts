@@ -6,13 +6,17 @@ async function run(): Promise<void> {
   const token = process.env.GITHUB_TOKEN
   if (!token) throw ReferenceError('No Token found')
 
-  await allStatusPassedCheck({
-    debug,
-    setFailed,
-    getInput,
-    octokit: new GitHub(token),
-    context
-  })
+  if (context.eventName === 'check_run') {
+    return await allStatusPassedCheck({
+      debug,
+      setFailed,
+      getInput,
+      octokit: new GitHub(token),
+      context
+    })
+  } else {
+    return new Promise(() => {})
+  }
 }
 
 run()
