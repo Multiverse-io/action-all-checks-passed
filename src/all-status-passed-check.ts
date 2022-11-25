@@ -5,8 +5,7 @@ export async function allStatusPassedCheck(
   actionContext: ActionContext
 ): Promise<void> {
   try {
-    const eventPayloadHeadSha =
-      actionContext.context.payload['check_run']['head_sha']
+    const eventPayloadHeadSha = actionContext.context.sha
 
     debug(`Getting all checks for ref ${eventPayloadHeadSha}`)
 

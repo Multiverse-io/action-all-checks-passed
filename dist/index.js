@@ -4372,7 +4372,7 @@ const core_1 = __webpack_require__(470);
 function allStatusPassedCheck(actionContext) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const eventPayloadHeadSha = actionContext.context.payload['check_run']['head_sha'];
+            const eventPayloadHeadSha = actionContext.context.sha;
             core_1.debug(`Getting all checks for ref ${eventPayloadHeadSha}`);
             const checks = yield actionContext.octokit.checks.listForRef(Object.assign(Object.assign({}, actionContext.context.repo), { ref: eventPayloadHeadSha }));
             core_1.debug(`Got back ${checks.data.total_count} checks`);
