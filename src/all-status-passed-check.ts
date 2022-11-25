@@ -1,5 +1,5 @@
 import {ActionContext} from './action-context'
-import {debug} from '@actions/core'
+// import {console.log} from '@actions/core'
 
 export async function allStatusPassedCheck(
   actionContext: ActionContext
@@ -7,14 +7,14 @@ export async function allStatusPassedCheck(
   try {
     const eventPayloadHeadSha = actionContext.context.sha
 
-    debug(`Getting all checks for ref ${eventPayloadHeadSha}`)
+    console.log(`Getting all checks for ref ${eventPayloadHeadSha}`)
 
     const checks = await actionContext.octokit.checks.listForRef({
       ...actionContext.context.repo,
       ref: eventPayloadHeadSha
     })
 
-    debug(`Got back ${checks.data.total_count} checks`)
+    console.log(`Got back ${checks.data.total_count} checks`)
 
     const runs = checks.data.check_runs
 
@@ -34,7 +34,7 @@ export async function allStatusPassedCheck(
             `The check for ${value.name} was ${value.status}: ${value.conclusion}`
         )
         .join('\n')
-      debug(`${successfulRuns.length} runs are successful`)
+      console.log(`${successfulRuns.length} runs are successful`)
 
       const hasSuccessCheckInSuite = currentAllChecksRun.length !== 0
 
@@ -45,10 +45,10 @@ export async function allStatusPassedCheck(
       const conclusion =
         successfulRuns.length === totalCheckRuns ? 'success' : 'failure'
 
-      debug(`conclusion was ${conclusion}`)
+      console.log(`conclusion was ${conclusion}`)
 
       if (hasSuccessCheckInSuite) {
-        debug('updating existing check')
+        console.log('updating existing check')
         actionContext.octokit.checks.update({
           ...actionContext.context.repo,
           //eslint-disable-next-line @typescript-eslint/camelcase
@@ -61,7 +61,7 @@ export async function allStatusPassedCheck(
           }
         })
       } else {
-        debug('Adding new check')
+        console.log('Adding new check')
         actionContext.octokit.checks.create({
           ...actionContext.context.repo,
           //eslint-disable-next-line @typescript-eslint/camelcase
